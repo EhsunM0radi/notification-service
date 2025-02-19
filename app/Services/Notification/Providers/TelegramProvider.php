@@ -38,4 +38,5 @@ class TelegramProvider implements Provider
             'json' => $data,
         ];
     }
+
 }

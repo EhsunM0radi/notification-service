@@ -2,7 +2,8 @@
 
 namespace App\Services\Notification;
 
-use App\Services\Notification\Providers\Contracts\Provider;
+use App\Jobs\SendNotificationJob;
+use App\Services\Notification\Repositories\NotificationRepository;
 
 /**
  * @method sendEmail(App\Models\User $user, Illuminate\Mail\Mailable $mailable)
@@ -11,17 +12,23 @@ use App\Services\Notification\Providers\Contracts\Provider;
 
 class Notification
 {
-    public function __call($name, $arguments)
+    protected $notificationRepository;
+
+    public function __construct(NotificationRepository $notificationRepository) {
+        $this->notificationRepository = $notificationRepository;
+    }
+
+    public function __call($name, $arguments):void
     {
-        $providerPath = __NAMESPACE__ . '\Providers\\' . substr($name,4) . 'Provider';
-        if(!class_exists($providerPath)){
-            throw new \Exception('Class does not exist');
-        }
-        $providerInstance = new $providerPath(...$arguments);
-        if(!is_subclass_of($providerInstance, Provider::class)){
-            throw new \Exception("Class Must Implements App\Services\Notification\Providers\Contracts\Provider");
-        }
-        return $providerInstance->send();
+        $type = substr($name,4);
+
+        $notification = $this->notificationRepository->create([
+            'type' => $type,
+            'data' => json_encode($arguments),
+            'status' => 'pending'
+        ]);
+
+        SendNotificationJob::dispatch($notification->id,$type,$arguments);
     }
 
 }

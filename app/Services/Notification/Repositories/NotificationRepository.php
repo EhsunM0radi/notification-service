@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Services\Notification\Repositories;
 
 use App\Models\Notification;
 use Illuminate\Database\Eloquent\Collection;
-
-use App\Repositories\Contracts\NotificationRepositoryInterface;
+use App\Services\Notification\Repositories\Contracts\NotificationRepositoryInterface;
 
 class NotificationRepository implements NotificationRepositoryInterface
 {

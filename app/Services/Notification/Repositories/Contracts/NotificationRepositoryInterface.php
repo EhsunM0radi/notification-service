@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Contracts;
+namespace App\Services\Notification\Repositories\Contracts;
 
 use App\Models\Notification;
 use Illuminate\Database\Eloquent\Collection;

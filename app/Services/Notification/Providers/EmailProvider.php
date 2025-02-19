@@ -22,4 +22,5 @@ class EmailProvider implements Provider
     {
         return Mail::to($this->user)->send($this->mailable);
     }
+
 }

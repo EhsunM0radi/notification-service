@@ -5,9 +5,8 @@ namespace App\Services\Notification\Providers;
 use App\Models\User;
 use App\Services\Notification\Exceptions\PushProblem;
 use App\Services\Notification\Providers\Contracts\Provider;
-use GuzzleHttp\Client;
 
-class TelegramProvider implements Provider
+class PushProvider implements Provider
 {
 
     private $user;
